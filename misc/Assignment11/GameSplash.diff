@@ -1,0 +1,70 @@
+--- GameSplash.java	2021-10-12 17:47:48.000000000 -0400
++++ /home/neil/down/A11_Kingdom309/GameSplash.java	2021-10-09 20:34:40.000000000 -0400
+@@ -1,11 +1,3 @@
+-package picross;
+-
+-import javax.imageio.ImageIO;
+-import javax.swing.*;
+-import java.awt.*;
+-import java.awt.image.BufferedImage;
+-import java.io.IOException;
+-
+ /**
+  * @author Neil Kingdom
+  * @since 2021-10-3
+@@ -15,6 +7,12 @@
+  * It uses Thread.sleep to prolong the time it's active before disposing itself.
+  * */
+ 
++package Assign1.Picross;
++
++import javax.swing.*;
++import java.awt.*;
++import java.io.File;
++
+ public class GameSplash extends JFrame {
+ 
+     private final int T_AUTOSTART;
+@@ -39,21 +37,31 @@
+         JPanel splash = new JPanel();
+         splash.setMinimumSize(new Dimension(MIN_WIN_WIDTH, MIN_WIN_HEIGHT));
+ 
+-        BufferedImage bufSplash;
++        final File SPLASH_ICO = new File("res/img/PicrossSplash.jpg");
+         ImageIcon splashIcon = null;
+ 
+-        try {
+-            bufSplash = ImageIO.read(this.getClass().getResourceAsStream("/res/img/PicrossSplash.jpg"));
+-            splashIcon = new ImageIcon(bufSplash.getScaledInstance(MIN_WIN_WIDTH, MIN_WIN_HEIGHT, Image.SCALE_SMOOTH));
+-        } catch (IOException | IllegalArgumentException e) {
+-            System.err.println("Could not load image: \"/res/img/PicrossSplash.jpg\"");
++        // Custom exception
++        class MissingIconFile extends Exception {
++            MissingIconFile(String e) {
++                super(e);
++            }
++        }
++
++        if(!SPLASH_ICO.exists()) {
++            /* TODO: Really sloppy bad code. Fix in later revision. Maybe use FileInputStream */
++            try {
++                throw new MissingIconFile("Picross was unable to locate " + SPLASH_ICO.getPath());
++            } catch (MissingIconFile e) {
++                e.printStackTrace();
++                dispose();
++                System.exit(-1);
++            }
++        }
++        else {
++            splashIcon = new ImageIcon(new ImageIcon(SPLASH_ICO.getPath()).getImage().getScaledInstance(MIN_WIN_WIDTH, MIN_WIN_HEIGHT, Image.SCALE_SMOOTH));
+         }
+ 
+-        JLabel splashBackground;
+-        if(splashIcon != null)
+-            splashBackground = new JLabel(splashIcon);
+-        else
+-            splashBackground = new JLabel("Missing Image");
++        JLabel splashBackground = new JLabel(splashIcon);
+         splashBackground.setPreferredSize(new Dimension(MIN_WIN_WIDTH, MIN_WIN_HEIGHT));
+ 
+         splash.add(splashBackground, BorderLayout.CENTER);
