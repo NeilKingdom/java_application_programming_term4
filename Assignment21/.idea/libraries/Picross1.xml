@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Picross1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/production/Picross/Picross.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
