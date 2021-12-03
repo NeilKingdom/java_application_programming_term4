@@ -1,5 +1,7 @@
 package picross;
 
+import picross.GameServer;
+import picross.GameClient;
 import java.awt.*;
 
 /**
@@ -25,9 +27,26 @@ public class Game {
     protected static int dimension = 5;
 
     public static void main(String[] args) {
-        GameModel gameModel = new GameModel();
-        GameView gameView = new GameView();
-        new GameController(gameModel, gameView);
+
+        if(args.length >= 1) {
+            //Create server instance
+            if(args[0].toLowerCase().equals("s")) {
+                GameServer.main(args);
+            }
+            //Create client instance
+            else if(args[0].toLowerCase().equals("c")) {
+                GameClient.main(args);
+            }
+            else {
+                System.err.println("Unrecognized option - " + args[0]);
+            }
+        }
+        //Regular MVC implementation
+        else {
+            GameModel gameModel = new GameModel();
+            GameView gameView = new GameView();
+            new GameController(gameModel, gameView);
+        }
     }
 
     /* ---------------------- Setters -------------------- */

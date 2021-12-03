@@ -579,8 +579,8 @@ public class GameView extends JFrame {
         jf.add(layeredSplash);
         jf.setMinimumSize(new Dimension(MIN_WIN_WIDTH, MIN_WIN_HEIGHT));
         jf.setLocation(X_START_POS - jf.getWidth() / 2, Y_START_POS - jf.getHeight() / 2);
-        jf.setVisible(true);
         jf.setResizable(false);
+        jf.setVisible(true);
 
         //Start Animations
         SplashThread st = new SplashThread(this);
