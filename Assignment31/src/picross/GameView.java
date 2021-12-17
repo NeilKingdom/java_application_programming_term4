@@ -7,6 +7,8 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import static picross.Game.*;
  * GameView handles any visual components of the Picross implementation.
  * It extends JFrame so that we can add components to it.
  */
-public class GameView extends JFrame {
+public class GameView  {
 
     /* ---------------------- Constants -------------------- */
 
@@ -42,6 +44,7 @@ public class GameView extends JFrame {
     protected static Color PICROSS_GREEN = new Color(26, 173, 117);
 
     //JComponents
+    private static JFrame jf;
     private static JPanel markPanel, topPanel, leftPanel, centerPanel, rightPanel;
     private static JTextPane rightTextPane;
     private static JTextField pointsField;
@@ -91,7 +94,7 @@ public class GameView extends JFrame {
      * Parameterized constructor for GameView.
      */
     public GameView() {
-        super("Picross - Neil Kingdom");
+        //super("Picross - Neil Kingdom");
         tileDimension = MIN_WIN_HEIGHT / dimension;
         points = 0;
         mins = 0;
@@ -107,8 +110,8 @@ public class GameView extends JFrame {
      * Simply calls revalidate and repaint on the calling JFrame.
      */
     public void refresh() {
-        revalidate();
-        repaint();
+        jf.revalidate();
+        jf.repaint();
     }
 
     /**
@@ -132,7 +135,7 @@ public class GameView extends JFrame {
      */
     public void moveBkgrndFromOrigin(JLabel comp, Vec2D dest) {
         comp.setLocation((int) ((comp.getX() + dest.getI() % MIN_WIN_WIDTH)), (int) ((comp.getY() + dest.getJ()) % MIN_WIN_HEIGHT));
-        refresh();
+        //refresh();
     }
 
     /**
@@ -143,14 +146,16 @@ public class GameView extends JFrame {
      */
     public void initGame() {
 
-        Container mainPanel = getContentPane();
+        jf = new JFrame("Picross - Neil Kingdom");
+        Container mainPanel = jf.getContentPane();
 
         /* ---------------------- JFrame Setup -------------------- */
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setDefaultLookAndFeelDecorated(false);
-        setForeground(Color.WHITE);
-        setMinimumSize(new Dimension(MIN_WIN_WIDTH, MIN_WIN_HEIGHT));
+        jf.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        jf.setDefaultLookAndFeelDecorated(false);
+        jf.setForeground(Color.WHITE);
+        jf.setMinimumSize(new Dimension(MIN_WIN_WIDTH, MIN_WIN_HEIGHT));
+
         mainPanel.setBackground(BKGRD);
         mainPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc= new GridBagConstraints();
@@ -249,7 +254,7 @@ public class GameView extends JFrame {
         //Fonts
         try {
             mcRegular = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/res/fonts/MinecraftRegular.otf")).deriveFont(Font.PLAIN, 32);
-            setFont(mcRegular);
+            jf.setFont(mcRegular);
         } catch (IOException | FontFormatException | IllegalArgumentException e) {
             e.printStackTrace();
             System.err.println("Could not load font: \"/res/fonts/MinecraftRegular.otf\"");
@@ -257,7 +262,7 @@ public class GameView extends JFrame {
 
         try {
             openSans = Font.createFont(Font.TRUETYPE_FONT, this.getClass().getResourceAsStream("/res/fonts/OpenSans-Regular.ttf")).deriveFont(Font.PLAIN, 24);
-            setFont(mcRegular);
+            jf.setFont(mcRegular);
         } catch (IOException | FontFormatException | IllegalArgumentException e) {
             e.printStackTrace();
             System.err.println("Could not load font: \"/res/fonts/OpenSans-Regular.ttf\"");
@@ -324,7 +329,7 @@ public class GameView extends JFrame {
         help.add(subHelp_AboutPage);
         menuBar.add(menu);
         menuBar.add(help);
-        setJMenuBar(menuBar);
+        jf.setJMenuBar(menuBar);
 
         /* ---------------------- Mark Panel -------------------- */
 
@@ -639,8 +644,8 @@ public class GameView extends JFrame {
         endScreen.add(gameOverButton, BorderLayout.SOUTH);
 
         endScreen.pack();
-        endScreen.setVisible(true);
         endScreen.setResizable(false);
+        endScreen.setVisible(true);
     }
 
     /**
@@ -774,6 +779,8 @@ public class GameView extends JFrame {
 
     /* -------------------- Getters --------------------- */
 
+    public JFrame getJFrame() { return jf; }
+
     public JPanel getTopPanel() {
         return topPanel;
     }
@@ -843,6 +850,8 @@ public class GameView extends JFrame {
     }
 
     /* -------------------- Setters --------------------- */
+
+    public void setJFrame(JFrame frame) { jf = frame; }
 
     public void setPoints(int points) {
         this.points = (points < 0) ? 0 : points;

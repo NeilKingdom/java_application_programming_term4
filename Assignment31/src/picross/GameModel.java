@@ -24,7 +24,7 @@ public class GameModel {
     private String bitStream;
     private boolean[][] board;
     private static ArrayList<ArrayList<Integer>> leftHintCol;
-    private static ArrayList<ArrayList<Integer>> topHintCol;
+    private static ArrayList<ArrayList<Integer>> topHintRow;
 
     /**
      * @since 2021-10-09
@@ -37,7 +37,7 @@ public class GameModel {
         bitStream = INITIAL_CONFIG;
         board = tokenizeBitStream(bitStream);
         leftHintCol = genLeftHints(board);
-        topHintCol = genTopHints(board);
+        topHintRow = genTopHints(board);
     }
 
     /**
@@ -57,7 +57,7 @@ public class GameModel {
         bitStream = sb.toString();
         board = tokenizeBitStream(bitStream);
         leftHintCol = genLeftHints(board);
-        topHintCol = genTopHints(board);
+        topHintRow = genTopHints(board);
     }
 
     /**
@@ -68,7 +68,7 @@ public class GameModel {
      * Splits the random bit stream into chunks. 1s are treated as
      * true, and 0s as false.
      */
-    private boolean[][] tokenizeBitStream(String bitStream) {
+    public boolean[][] tokenizeBitStream(String bitStream) {
 
         String subst[];
         boolean board[][] = new boolean[dimension][dimension];
@@ -90,7 +90,7 @@ public class GameModel {
      * This method scans the 2D array of random boolean values and
      * generates hints for the left column of the game.
      */
-    private static ArrayList genLeftHints(boolean[][] board) {
+    public static ArrayList genLeftHints(boolean[][] board) {
 
         int count = 0;
         ArrayList<ArrayList<Integer>> leftHintCol = new ArrayList<>(dimension);
@@ -125,7 +125,7 @@ public class GameModel {
      * This method scans the 2D array of random boolean values and
      * generates hints for the top row of the game.
      */
-    private static ArrayList genTopHints(boolean[][] board) {
+    public static ArrayList genTopHints(boolean[][] board) {
 
         int count = 0;
         ArrayList<ArrayList<Integer>> topHintRow = new ArrayList<>(dimension);
@@ -162,11 +162,19 @@ public class GameModel {
     }
 
     public static ArrayList getTopHintRow() {
-        return topHintCol;
+        return topHintRow;
     }
 
     @Override
     public String toString() {
         return bitStream;
     }
+
+    /* ---------------------- Setters -------------------- */
+
+    public void setBoard(boolean[][] board) { this.board = board; }
+
+    public void setLeftHintCol(ArrayList<ArrayList<Integer>> leftHintCol) { this.leftHintCol = leftHintCol; }
+
+    public void setTopHintRow(ArrayList<ArrayList<Integer>> topHintRow) { this.topHintRow = topHintRow; }
 }

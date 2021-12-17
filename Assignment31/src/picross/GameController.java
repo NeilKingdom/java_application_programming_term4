@@ -61,17 +61,16 @@ public class GameController {
     }
 
     /**
-     * @param gameView Used for creating the main JFrame
      * @since 2021-09-15
      *
      * Essentially starts the actual game by calling pack() and
      * setVisible() of GameView's inherited JFrame
      */
     public void initBoard() {
-        gameView.pack();
-        gameView.setLocation(X_START_POS - gameView.getWidth() / 2, Y_START_POS - gameView.getHeight() / 2);
-        gameView.setResizable(false);
-        gameView.setVisible(true);
+        gameView.getJFrame().pack();
+        gameView.getJFrame().setLocation(X_START_POS - gameView.getJFrame().getWidth() / 2, Y_START_POS - gameView.getJFrame().getHeight() / 2);
+        gameView.getJFrame().setResizable(false);
+        gameView.getJFrame().setVisible(true);
     }
 
     /**
@@ -209,9 +208,8 @@ public class GameController {
                 JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[1]);
 
         if (n == 0) {
-            System.out.println("Goodbye!");
-            gameView.dispose();
-            System.exit(0);
+            gameView.getJFrame().dispose();
+            gameView.setJFrame(null);
         }
     }
 
@@ -310,7 +308,7 @@ public class GameController {
             }
         });
 
-        paletteBar.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        paletteBar.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         paletteBar.pack();
         paletteBar.setResizable(false);
         paletteBar.setVisible(true);
@@ -327,7 +325,7 @@ public class GameController {
         String about = "Picross\n" +
                 "Version: 1.1\n" +
                 "Author: Neil Kingdom";
-        JOptionPane.showMessageDialog(gameView, about);
+        JOptionPane.showMessageDialog(gameView.getJFrame(), about);
     }
 
     /* ---------------------- Action Listeners -------------------- */
