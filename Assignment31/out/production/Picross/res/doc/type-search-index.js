@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"picross","l":"GameController.Functions"},{"p":"picross","l":"Game"},{"p":"picross","l":"GameController"},{"p":"picross","l":"GameModel"},{"p":"picross","l":"GameView"},{"p":"picross","l":"LayeredPaneLayout"},{"p":"picross","l":"SplashThread"},{"p":"picross","l":"Vec2D"}];updateSearchResults();
